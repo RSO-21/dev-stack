@@ -32,6 +32,20 @@ services:
     networks:
       - fri-net
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - fri-net
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   auth-service:
     build:
       context: ../auth-service
@@ -82,8 +96,28 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ../order-service/.env
+    environment:
+      - PAYMENT_GRPC_HOST=payment-grpc
+      - PAYMENT_GRPC_PORT=50051
+      - RABBITMQ_HOST=rabbitmq
     ports:
       - "8002:8000"
+    depends_on:
+      - rabbitmq
+      - payment-grpc
+    networks:
+      - fri-net
+
+  order-consumer:
+    build:
+      context: ../order-service
+    command: python -m app.rabbitmq_consumer
+    restart: always
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
     networks:
       - fri-net
 
@@ -95,6 +129,17 @@ services:
       - ../payment-service/.env
     ports:
       - "8003:8000"
+    networks:
+      - fri-net
+
+  payment-grpc:
+    build:
+      context: ../payment-service
+    command: python -m app.grpc_server
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    ports:
+      - "50052:50051"
     networks:
       - fri-net
 
@@ -157,3 +202,4 @@ volumes:
   keycloak_data:
   keycloak_postgres:
   frontend_node_modules:
+    

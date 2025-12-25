@@ -122,6 +122,21 @@ services:
     networks:
       - fri-net
 
+  user-consumer:
+    build:
+      context: ../user-service
+    command: python -m app.rabbitmq_consumer
+    restart: always
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    env_file:
+      - ../user-service/.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - fri-net
+
   payment-service:
     build:
       context: ../payment-service
@@ -206,9 +221,9 @@ services:
 networks:
   fri-net:
     name: fri-net
+    external: true
 
 volumes:
   keycloak_data:
   keycloak_postgres:
   frontend_node_modules:
-    

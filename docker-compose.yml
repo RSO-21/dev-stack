@@ -46,6 +46,27 @@ services:
       timeout: 5s
       retries: 5
 
+  api-gateway:
+    build: ../api-gateway
+    ports:
+      - "9000:9000"
+    environment:
+      - ORDER_SERVICE_URL=http://order-service:8000
+      - PAYMENT_SERVICE_URL=http://payment-service:8000
+    depends_on:
+      order-service:
+        condition: service_started
+      payment-service:
+        condition: service_started
+    networks:
+      - fri-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
   auth-service:
     build:
       context: ../auth-service

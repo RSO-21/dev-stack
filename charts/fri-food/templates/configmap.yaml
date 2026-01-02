@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fri-food.fullname" . }}-common
+data:
+{{- range $k, $v := .Values.config.common }}
+  {{ $k }}: {{ $v | quote }}
+{{- end }}
+---
+{{- range $name, $cfg := .Values.config }}
+{{- if ne $name "common" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fri-food.fullname" $ }}-{{ $name }}
+{{- if $cfg }}
+data:
+{{- range $k, $v := $cfg }}
+  {{ $k }}: {{ $v | quote }}
+{{- end }}
+{{- else }}
+data: {}
+{{- end }}
+---
+{{- end }}
+{{- end }}

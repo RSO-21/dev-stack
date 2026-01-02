@@ -1,0 +1,81 @@
+{{- range $name, $svc := .Values.services }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    app: {{ $name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+    spec:
+      {{- if $.Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml $.Values.global.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ $name }}
+          image: {{ $svc.image }}
+          imagePullPolicy: {{ $.Values.global.imagePullPolicy }}
+          {{- if $svc.command }}
+          command: {{ toYaml $svc.command | nindent 12 }}
+          {{- end }}
+          ports:
+            {{- range $p := $svc.ports }}
+            - name: {{ $p.name }}
+              containerPort: {{ $p.containerPort }}
+            {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "fri-food.fullname" $ }}-common
+            - configMapRef:
+                name: {{ include "fri-food.fullname" $ }}-{{ $name }}
+            - secretRef:
+                name: {{ include "fri-food.fullname" $ }}-postgres
+          # Basic health checks (optional but recommended)
+          {{- $httpPort := "" }}
+          {{- range $p := $svc.ports }}
+          {{- if eq $p.name "http" }}
+          {{- $httpPort = $p.name }}
+          {{- end }}
+          {{- end }}
+          {{- if $httpPort }}
+          readinessProbe:
+            httpGet:
+              path: {{ default "/" $svc.healthPath }}
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: {{ default "/" $svc.healthPath }}
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          {{- end }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  labels:
+    app: {{ $name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ $name }}
+  ports:
+    {{- range $p := $svc.ports }}
+    - name: {{ $p.name }}
+      port: {{ $p.servicePort }}
+      targetPort: {{ $p.name }}
+    {{- end }}
+{{- end }}

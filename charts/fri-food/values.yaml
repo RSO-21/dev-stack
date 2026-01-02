@@ -1,0 +1,158 @@
+global:
+  imagePullPolicy: Always
+  imagePullSecrets: []
+
+services:
+  api-gateway:
+    image: postuvantina/api-gateway:latest
+    ports:
+      - name: http
+        containerPort: 9000
+        servicePort: 9000
+    healthPath: /docs
+
+  auth-service:
+    image: postuvantina/auth-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /docs
+
+  user-service:
+    image: postuvantina/user-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /docs
+
+  offer-service:
+    image: postuvantina/offer-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /docs
+
+  partner-service:
+    image: postuvantina/partner-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+      - name: grpc
+        containerPort: 50051
+        servicePort: 50051
+    healthPath: /docs
+
+  order-service:
+    image: postuvantina/order-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+      - name: grpc
+        containerPort: 50051
+        servicePort: 50051
+    healthPath: /docs
+
+  # REST payment API (if you use it)
+  payment-service:
+    image: postuvantina/payment-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /docs
+
+  # gRPC payment server (same image, different command)
+  payment-grpc:
+    image: postuvantina/payment-service:latest
+    command: ["python", "-m", "app.grpc_server"]
+    ports:
+      - name: grpc
+        containerPort: 50051
+        servicePort: 50051
+    healthPath: /docs
+
+ingress:
+  enabled: true
+  className: nginx
+  host: fri-food.local
+  paths:
+    # gateway stays normal (no rewrite needed)
+    - path: /?(.*)
+      serviceName: api-gateway
+      servicePort: 9000
+
+    # rewrite /users/... -> /...
+    - path: /users(/|$)(.*)
+      serviceName: user-service
+      servicePort: 8000
+
+    # rewrite /orders/... -> /...
+    - path: /orders(/|$)(.*)
+      serviceName: order-service
+      servicePort: 8000
+
+config:
+  common:
+    RABBITMQ_HOST: "rabbitmq"
+    KEYCLOAK_BASE_URL: "http://keycloak:8080"
+
+  auth-service:
+    KEYCLOAK_BASE_URL: http://keycloak:8080
+    FLASK_PORT: "8000"
+
+  api-gateway:
+    ORDER_SERVICE_URL: "http://order-service:8000"
+    PAYMENT_SERVICE_URL: "http://payment-service:8000"
+    PAYMENT_SERVICE_HOST: "payment-service"
+    PAYMENT_SERVICE_PORT: "8000"
+
+  user-service:
+    ORDERS_GRPC_HOST: "order-service"
+    ORDERS_GRPC_PORT: "50051"
+    PGHOST: "postgres-postgresql"
+    PGUSER: "fri"
+    PGDATABASE: "fri_food"
+
+  offer-service:
+    PARTNER_GRPC_HOST: "partner-service"
+    PARTNER_GRPC_PORT: "50051"
+    PGHOST: "postgres-postgresql"
+    PGUSER: "fri"
+    PGDATABASE: "fri_food"
+
+  partner-service:
+    PGHOST: "postgres-postgresql"
+    PGUSER: "fri"
+    PGDATABASE: "fri_food"
+
+  order-service:
+    PAYMENT_GRPC_HOST: "payment-grpc"
+    PAYMENT_GRPC_PORT: "50051"
+    PGHOST: "postgres-postgresql"
+    PGUSER: "fri"
+    PGDATABASE: "fri_food"
+
+  payment-service:
+    PAYMENT_GRPC_HOST: "payment-grpc"
+    PAYMENT_GRPC_PORT: "50051"
+    PGHOST: "postgres-postgresql"
+    PGUSER: "fri"
+    PGDATABASE: "fri_food"
+
+  payment-grpc:
+    PYTHONPATH: "/app"
+    PAYMENT_GRPC_HOST: "payment-grpc"
+    PAYMENT_GRPC_PORT: "50051"
+    PGHOST: "postgres-postgresql"
+    PGUSER: "fri"
+    PGDATABASE: "fri_food"
+
+secrets:
+  postgres:
+    PGPASSWORD: "fri123"
+

@@ -1,0 +1,63 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fri-food-ms-hosts
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: users.fri-food.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8000
+
+    - host: orders.fri-food.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8000
+
+    - host: payments.fri-food.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-service
+                port:
+                  number: 8000
+
+    - host: offers.fri-food.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: offer-service
+                port:
+                  number: 8000
+
+    - host: partners.fri-food.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: partner-service
+                port:
+                  number: 8000
+{{- end }}

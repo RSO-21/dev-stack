@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "fri-food.fullname" . }}-test-connection"
+  labels:
+    {{- include "fri-food.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox:1.36
+      command: ['sh', '-c', 'wget -qO- http://api-gateway:9000/ || exit 1']
+  restartPolicy: Never

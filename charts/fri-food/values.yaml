@@ -102,7 +102,6 @@ config:
     KEYCLOAK_BASE_URL: "http://keycloak:8080"
 
   auth-service:
-    KEYCLOAK_BASE_URL: http://keycloak:8080
     FLASK_PORT: "8000"
 
   api-gateway:
@@ -114,45 +113,45 @@ config:
   user-service:
     ORDERS_GRPC_HOST: "order-service"
     ORDERS_GRPC_PORT: "50051"
-    PGHOST: "postgres-postgresql"
-    PGUSER: "fri"
-    PGDATABASE: "fri_food"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "user_service"
 
   offer-service:
     PARTNER_GRPC_HOST: "partner-service"
     PARTNER_GRPC_PORT: "50051"
-    PGHOST: "postgres-postgresql"
-    PGUSER: "fri"
-    PGDATABASE: "fri_food"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "offer_service"
 
   partner-service:
-    PGHOST: "postgres-postgresql"
-    PGUSER: "fri"
-    PGDATABASE: "fri_food"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "partner_service"
 
   order-service:
     PAYMENT_GRPC_HOST: "payment-grpc"
     PAYMENT_GRPC_PORT: "50051"
-    PGHOST: "postgres-postgresql"
-    PGUSER: "fri"
-    PGDATABASE: "fri_food"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "order_service"
 
   payment-service:
     PAYMENT_GRPC_HOST: "payment-grpc"
     PAYMENT_GRPC_PORT: "50051"
-    PGHOST: "postgres-postgresql"
-    PGUSER: "fri"
-    PGDATABASE: "fri_food"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "payment_service"
 
   payment-grpc:
     PYTHONPATH: "/app"
     PAYMENT_GRPC_HOST: "payment-grpc"
     PAYMENT_GRPC_PORT: "50051"
-    PGHOST: "postgres-postgresql"
-    PGUSER: "fri"
-    PGDATABASE: "fri_food"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "payment_service"
 
 secrets:
   postgres:
-    PGPASSWORD: "fri123"
+    PGPASSWORD: "Pass_Za_Server"
 

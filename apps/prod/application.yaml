@@ -15,5 +15,6 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: fri-food-prod
-  syncOptions:
-    - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

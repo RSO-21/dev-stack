@@ -3,4 +3,4 @@ ingress:
 
 services:
   partner-service:
-    image: rsofrifoodacr.azurecr.io/partner-service:prod
+    image: rsofrifoodacr.azurecr.io/partner-service:2896842

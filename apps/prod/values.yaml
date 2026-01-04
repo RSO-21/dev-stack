@@ -1,6 +1,16 @@
 ingress:
   host: fri-food.68.210.120.104.nip.io
 
+ingressHosts:
+  enabled: true
+  hosts:
+    users: users.68.210.120.104.nip.io
+    orders: orders.68.210.120.104.nip.io
+    payments: payments.68.210.120.104.nip.io
+    offers: offers.68.210.120.104.nip.io
+    partners: partners.68.210.120.104.nip.io
+
+
 services:
   partner-service:
     image: rsofrifoodacr.azurecr.io/partner-service:2896842

@@ -1,4 +1,4 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.ingressHosts.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -6,7 +6,9 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: users.fri-food.local
+    {{- with .Values.ingressHosts.hosts }}
+    {{- if .users }}
+    - host: {{ .users | quote }}
       http:
         paths:
           - path: /
@@ -16,8 +18,10 @@ spec:
                 name: user-service
                 port:
                   number: 8000
+    {{- end }}
 
-    - host: orders.fri-food.local
+    {{- if .orders }}
+    - host: {{ .orders | quote }}
       http:
         paths:
           - path: /
@@ -27,8 +31,10 @@ spec:
                 name: order-service
                 port:
                   number: 8000
+    {{- end }}
 
-    - host: payments.fri-food.local
+    {{- if .payments }}
+    - host: {{ .payments | quote }}
       http:
         paths:
           - path: /
@@ -38,8 +44,10 @@ spec:
                 name: payment-service
                 port:
                   number: 8000
+    {{- end }}
 
-    - host: offers.fri-food.local
+    {{- if .offers }}
+    - host: {{ .offers | quote }}
       http:
         paths:
           - path: /
@@ -49,8 +57,10 @@ spec:
                 name: offer-service
                 port:
                   number: 8000
+    {{- end }}
 
-    - host: partners.fri-food.local
+    {{- if .partners }}
+    - host: {{ .partners | quote }}
       http:
         paths:
           - path: /
@@ -60,4 +70,6 @@ spec:
                 name: partner-service
                 port:
                   number: 8000
+    {{- end }}
+    {{- end }}
 {{- end }}

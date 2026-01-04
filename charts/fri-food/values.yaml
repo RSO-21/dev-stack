@@ -96,6 +96,16 @@ ingress:
       serviceName: order-service
       servicePort: 8000
 
+
+ingressHosts:
+  enabled: true
+  hosts:
+    users: users.fri-food.local
+    orders: orders.fri-food.local
+    payments: payments.fri-food.local
+    offers: offers.fri-food.local
+    partners: partners.fri-food.local
+
 config:
   common:
     RABBITMQ_HOST: "rabbitmq"
@@ -154,4 +164,3 @@ config:
 secrets:
   postgres:
     PGPASSWORD: "Pass_Za_Server"
-

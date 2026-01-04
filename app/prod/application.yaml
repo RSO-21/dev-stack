@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fri-food-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RSO-21/dev-stack.git
+    targetRevision: main
+    path: charts/fri-food
+    helm:
+      valueFiles:
+        - ../../apps/prod/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fri-food-prod
+  syncOptions:
+    - CreateNamespace=true

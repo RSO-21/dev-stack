@@ -162,4 +162,4 @@ config:
 
 secrets:
   postgres:
-    PGPASSWORD: "Pass_Za_Server"
+    existingSecret: ""

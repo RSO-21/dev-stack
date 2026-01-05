@@ -14,3 +14,7 @@ ingressHosts:
 services:
   partner-service:
     image: rsofrifoodacr.azurecr.io/partner-service:2896842
+
+secrets:
+  postgres:
+    existingSecret: fri-food-postgres

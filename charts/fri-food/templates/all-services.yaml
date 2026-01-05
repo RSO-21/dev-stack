@@ -38,7 +38,7 @@ spec:
             - configMapRef:
                 name: {{ include "fri-food.fullname" $ }}-{{ $name }}
             - secretRef:
-                name: {{ include "fri-food.fullname" $ }}-postgres
+                name: {{ default (printf "%s-postgres" (include "fri-food.fullname" $)) $.Values.secrets.postgres.existingSecret }}
           # Basic health checks (optional but recommended)
           {{- $httpPort := "" }}
           {{- range $p := $svc.ports }}

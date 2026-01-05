@@ -9,7 +9,7 @@ services:
       - name: http
         containerPort: 9000
         servicePort: 9000
-    healthPath: /docs
+    healthPath: /health
 
   auth-service:
     image: postuvantina/auth-service:latest
@@ -17,7 +17,7 @@ services:
       - name: http
         containerPort: 8000
         servicePort: 8000
-    healthPath: /docs
+    healthPath: /health
 
   user-service:
     image: postuvantina/user-service:latest
@@ -25,7 +25,7 @@ services:
       - name: http
         containerPort: 8000
         servicePort: 8000
-    healthPath: /docs
+    healthPath: /health
 
   offer-service:
     image: postuvantina/offer-service:latest
@@ -33,7 +33,7 @@ services:
       - name: http
         containerPort: 8000
         servicePort: 8000
-    healthPath: /docs
+    healthPath: /health
 
   partner-service:
     image: postuvantina/partner-service:latest
@@ -44,7 +44,7 @@ services:
       - name: grpc
         containerPort: 50051
         servicePort: 50051
-    healthPath: /docs
+    healthPath: /health
 
   order-service:
     image: postuvantina/order-service:latest
@@ -55,7 +55,7 @@ services:
       - name: grpc
         containerPort: 50051
         servicePort: 50051
-    healthPath: /docs
+    healthPath: /health
 
   # REST payment API (if you use it)
   payment-service:
@@ -64,7 +64,7 @@ services:
       - name: http
         containerPort: 8000
         servicePort: 8000
-    healthPath: /docs
+    healthPath: /health
 
   # gRPC payment server (same image, different command)
   payment-grpc:
@@ -74,7 +74,7 @@ services:
       - name: grpc
         containerPort: 50051
         servicePort: 50051
-    healthPath: /docs
+    healthPath: /health
 
 ingress:
   enabled: true

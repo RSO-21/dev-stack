@@ -1,5 +1,5 @@
 ingress:
-  host: fri-food.68.210.120.104.nip.io
+  host: api.fri-food.68.210.120.104.nip.io
 
 ingressHosts:
   enabled: true

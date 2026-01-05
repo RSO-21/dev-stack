@@ -2,14 +2,7 @@ ingress:
   host: api.fri-food.68.210.120.104.nip.io
 
 ingressHosts:
-  enabled: true
-  hosts:
-    users: users.68.210.120.104.nip.io
-    orders: orders.68.210.120.104.nip.io
-    payments: payments.68.210.120.104.nip.io
-    offers: offers.68.210.120.104.nip.io
-    partners: partners.68.210.120.104.nip.io
-
+  enabled: false
 
 services:
   partner-service:

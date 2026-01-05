@@ -79,22 +79,6 @@ ingress:
   enabled: true
   className: nginx
   host: fri-food.local
-  paths:
-    # gateway stays normal (no rewrite needed)
-    - path: /?(.*)
-      serviceName: api-gateway
-      servicePort: 9000
-
-    # rewrite /users/... -> /...
-    - path: /users(/|$)(.*)
-      serviceName: user-service
-      servicePort: 8000
-
-    # rewrite /orders/... -> /...
-    - path: /orders(/|$)(.*)
-      serviceName: order-service
-      servicePort: 8000
-
 
 ingressHosts:
   enabled: true
@@ -114,7 +98,12 @@ config:
     FLASK_PORT: "8000"
 
   api-gateway:
+    api-gateway:
+    AUTH_SERVICE_URL: "http://auth-service:8000"
+    USER_SERVICE_URL: "http://user-service:8000"
     ORDER_SERVICE_URL: "http://order-service:8000"
+    OFFER_SERVICE_URL: "http://offer-service:8000"
+    PARTNER_SERVICE_URL: "http://partner-service:8000"
     PAYMENT_SERVICE_URL: "http://payment-service:8000"
     PAYMENT_SERVICE_HOST: "payment-service"
     PAYMENT_SERVICE_PORT: "8000"

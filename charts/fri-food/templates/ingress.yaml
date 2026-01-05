@@ -3,22 +3,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: fri-food-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          {{- range .Values.ingress.paths }}
-          - path: {{ .path }}
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: {{ .serviceName }}
+                name: api-gateway
                 port:
-                  number: {{ .servicePort }}
-          {{- end }}
+                  number: 9000
 {{- end }}

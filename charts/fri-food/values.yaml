@@ -74,6 +74,25 @@ services:
         containerPort: 50051
         servicePort: 50051
     healthPath: /health
+  
+  # REST Notification API (frontend polls this)
+  notification-service:
+    image: postuvantina/notification-service:latest
+    ports:
+      - name: http
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /health
+
+  # RabbitMQ consumer (same image, different command)
+  notification-consumer:
+    image: postuvantina/notification-service:latest
+    command: ["python", "-m", "app.rabbitmq_consumer"]
+    ports:
+      - name: dummy
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /health
 
   frifood-frontend:
     image: postuvantina/frifood-frontend:latest
@@ -102,6 +121,10 @@ ingress:
     - path: /orders(/|$)(.*)
       serviceName: order-service
       servicePort: 8000
+    
+    - path: /notifications(/|$)(.*)
+      serviceName: notification-service
+      servicePort: 8000
 
 
 ingressHosts:
@@ -113,6 +136,7 @@ ingressHosts:
     offers: offers.fri-food.local
     partners: partners.fri-food.local
     frontend: fri-food.local
+    notifications: notifications.fri-food.local
 
 config:
   common:
@@ -168,6 +192,20 @@ config:
     PGHOST: "rso-server.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "payment_service"
+  
+  notification-service:
+    RABBITMQ_HOST: "rabbitmq"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "notification_service"
+
+  notification-consumer:
+    RABBITMQ_HOST: "rabbitmq"
+    PAYMENT_CONFIRMED_QUEUE: "payment_confirmed"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "notification_service"
+
 
 secrets:
   postgres:

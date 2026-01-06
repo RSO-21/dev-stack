@@ -53,6 +53,7 @@ services:
     environment:
       - ORDER_SERVICE_URL=http://order-service:8000
       - PAYMENT_SERVICE_URL=http://payment-service:8000
+      - PARTNER_SERVICE_URL=http://partner-service:8000
     depends_on:
       order-service:
         condition: service_started
@@ -198,6 +199,35 @@ services:
       - "8004:8000"
     networks:
       - fri-net
+  
+  notification-service:
+    build:
+      context: ../notification-service
+      dockerfile: Dockerfile
+    env_file:
+      - ../notification-service/.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "8006:8000"
+    networks:
+      - fri-net
+
+  notification-consumer:
+    build:
+      context: ../notification-service
+      dockerfile: Dockerfile
+    command: python -m app.rabbitmq_consumer
+    restart: always
+    env_file:
+      - ../notification-service/.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - fri-net
+
 
   frontend:
     build:

@@ -82,6 +82,76 @@ mutation ConfirmMyPayment {
 }
 ```
 
+## Partner service
+### Get all partners
+query {
+  allPartners {
+    id
+    name
+  }
+}
+
+### Create partner
+mutation CreateNewPartner($input: CreatePartnerInput!) {
+  createPartner(input: $input) {
+    name
+    active
+    latitude
+    longitude
+    address
+  }
+}
+
+{
+  "input": {
+    "name": "Burek Olimpija",
+    "active": true,
+    "latitude": 46.0569,
+    "longitude": 14.5058,
+    "address": "neka ulica"
+  }
+}
+
+### Get nearby partners
+query TestNearbyPartners($lat: Float!, $lng: Float!, $radius: Float) {
+  nearbyPartners(lat: $lat, lng: $lng, radiusKm: $radius) {
+    id
+    name
+    latitude
+    longitude
+  }
+}
+
+{
+  "lat": 46.0569,
+  "lng": 14.5058,
+  "radius": 1.0
+}
+
+### Delete partner
+mutation DeletePartner($id: String!) {
+  deletePartner(partnerId: $id)
+}
+
+{
+  "id": "0eb93319-05dc-4a46-9b49-70e6a89ec81f"
+}
+
+### Edit partner
+mutation UpdateExistingPartner($id: String!, $data: PartnerUpdateInput!) {
+  updatePartner(partnerId: $id, input: $data) {
+    id
+    name
+  }
+}
+
+{
+  "id": "11111111-1111-1111-1111-111111111111",
+  "data": {
+    "name": "Gostilnaa As"
+  }
+}
+
 # 3 Handling multi-tenancy
 If nothing is provided, scheme will default to **public**.
 

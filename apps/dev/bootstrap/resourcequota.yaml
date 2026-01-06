@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: default-quota
+  namespace: fri-food-dev
+spec:
+  hard:
+    pods: "20"
+    requests.cpu: "1"
+    limits.cpu: "2"
+    requests.memory: 2Gi
+    limits.memory: 4Gi

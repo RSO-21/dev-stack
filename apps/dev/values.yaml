@@ -9,10 +9,25 @@ ingressHosts:
     payments: payments-dev.68.210.120.104.nip.io
     offers: offers-dev.68.210.120.104.nip.io
     partners: partners-dev.68.210.120.104.nip.io
+    frontend: fri-food-dev.68.210.120.104.nip.io
 
 services:
-  partner-service:
-    image: rsofrifoodacr.azurecr.io/partner-service:dev
+  user-service:
+    image: rsofrifoodacr.azurecr.io/user-service:dev
+  order-service:
+    image: rsofrifoodacr.azurecr.io/order-service:dev
+  offer-service:
+    image: rsofrifoodacr.azurecr.io/offer-service:dev
+  auth-service:
+    image: rsofrifoodacr.azurecr.io/auth-service:dev
+  payment-service:
+    image: rsofrifoodacr.azurecr.io/payment-service:dev
+  api-gateway:
+    image: rsofrifoodacr.azurecr.io/api-gateway:dev
+  payment-grpc:
+    image: rsofrifoodacr.azurecr.io/payment-service:dev
+  frifood-frontend:
+    image: rsofrifoodacr.azurecr.io/frifood-frontend:dev
 
 secrets:
   postgres:

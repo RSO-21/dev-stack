@@ -25,7 +25,7 @@ services:
       - name: http
         containerPort: 8000
         servicePort: 8000
-    healthPath: /docs
+    healthPath: /health
   offer-service:
     image: postuvantina/offer-service:latest
     ports:
@@ -75,6 +75,14 @@ services:
         servicePort: 50051
     healthPath: /health
 
+  frifood-frontend:
+    image: postuvantina/frifood-frontend:latest
+    ports:
+      - name: http
+        containerPort: 80
+        servicePort: 80
+    healthPath: /
+
 ingress:
   enabled: true
   className: nginx
@@ -104,6 +112,7 @@ ingressHosts:
     payments: payments.fri-food.local
     offers: offers.fri-food.local
     partners: partners.fri-food.local
+    frontend: fri-food.local
 
 config:
   common:

@@ -130,6 +130,7 @@ ingress:
 ingressHosts:
   enabled: true
   hosts:
+    auth: auth.fri-food.local
     users: users.fri-food.local
     orders: orders.fri-food.local
     payments: payments.fri-food.local

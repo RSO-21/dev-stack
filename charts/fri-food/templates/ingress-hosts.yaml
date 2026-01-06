@@ -20,6 +20,19 @@ spec:
                   number: 8000
     {{- end }}
 
+    {{- if .auth }}
+    - host: {{ .auth | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 8000
+    {{- end }}
+
     {{- if .orders }}
     - host: {{ .orders | quote }}
       http:
@@ -68,6 +81,19 @@ spec:
             backend:
               service:
                 name: partner-service
+                port:
+                  number: 8000
+    {{- end }}
+
+    {{- if .notifications }}
+    - host: {{ .notifications | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
                 port:
                   number: 8000
     {{- end }}

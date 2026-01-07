@@ -152,6 +152,72 @@ mutation UpdateExistingPartner($id: String!, $data: PartnerUpdateInput!) {
   }
 }
 
+## Offer service
+### Get all offers
+query {
+  getOffers {
+    id
+    title
+    description
+  }
+}
+
+### Get offer by id
+query {
+  offerById(offerId: 2) {
+    title
+    priceOriginal
+    priceDiscounted
+  }
+}
+
+### Create new offer
+mutation CreateNewOffer($input: CreateOfferInput!) {
+  createOffer(input: $input) {
+    id
+		title
+  }
+}
+
+{
+  "input": {
+    "partnerId": "645de0c7-7c1e-4e61-8e51-4439ba72670a",
+    "title": "Winter Special Deal",
+    "priceOriginal": 50.0,
+    "priceDiscounted": 35.5,
+    "quantityTotal": 100,
+    "quantityAvailable": 10,
+    "pickupFrom": "2024-12-01T10:00:00Z",
+    "pickupUntil": "2024-12-01T20:00:00Z",
+    "description": "A great discount for the winter season.",
+    "tenantId": "optional-override-tenant"
+  }
+}
+
+### Delete offer
+mutation DeleteOffer($id: Int!) {
+  deleteOffer(offerId: $id)
+}
+
+{
+  "id": 7
+}
+
+### Edit offer
+mutation UpdateExistingOffer($id: Int!, $data: OfferUpdateInput!) {
+  updateOffer(offerId: $id, input: $data) {
+    id
+    title
+  }
+}
+
+{
+  "id": 6,
+  "data": {
+    "title": "spremenjeno ime"
+  }
+}
+
 # 3 Handling multi-tenancy
 If nothing is provided, scheme will default to **public**.
 

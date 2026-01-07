@@ -54,6 +54,7 @@ services:
       - ORDER_SERVICE_URL=http://order-service:8000
       - PAYMENT_SERVICE_URL=http://payment-service:8000
       - PARTNER_SERVICE_URL=http://partner-service:8000
+      - OFFER_SERVICE_URL=http://offer-service:8000
     depends_on:
       order-service:
         condition: service_started

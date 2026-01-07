@@ -218,6 +218,26 @@ mutation UpdateExistingOffer($id: Int!, $data: OfferUpdateInput!) {
   }
 }
 
+## Notification service
+### Get notifications by user
+query {
+  allNotifications(userId: "user_789") {
+    id
+    title
+    message
+  }
+}
+
+### Mark as read
+mutation MarkNotificationAsRead {
+  markRead(notificationId: 6) {
+    id
+		title
+    message
+    isRead
+  }
+}
+
 # 3 Handling multi-tenancy
 If nothing is provided, scheme will default to **public**.
 

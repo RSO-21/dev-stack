@@ -55,6 +55,7 @@ services:
       - PAYMENT_SERVICE_URL=http://payment-service:8000
       - PARTNER_SERVICE_URL=http://partner-service:8000
       - OFFER_SERVICE_URL=http://offer-service:8000
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8000
     depends_on:
       order-service:
         condition: service_started

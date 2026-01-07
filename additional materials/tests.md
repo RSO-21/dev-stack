@@ -294,6 +294,51 @@ query GetUserOrderHistory($userId: String!) {
   "userId": "ddf2a389-71b1-4c32-88a0-24dbf89740e5"
 }
 
+## Auth service
+### Login
+mutation UserLogin($input: LoginRequest!) {
+  login(input: $input){status}
+}
+
+{
+  "input": {
+    "username": "newuser12",
+    "password": "securepassword123"
+  }
+}
+
+### Sign up
+mutation UserSignup($input: SignupInput!) {
+  signup(input: $input) {
+    status
+  }
+}
+
+{
+  "input": {
+    "username": "newuser12",
+    "email": "user12@example.com",
+    "password": "securepassword123"
+  }
+}
+
+### Logout
+mutation UserLogout {
+  logout {
+    status
+  }
+}
+
+### Me
+query GetMyProfile {
+  me {
+    sub
+    email
+    preferredUsername
+    roles
+  }
+}
+
 # 3 Handling multi-tenancy
 If nothing is provided, scheme will default to **public**.
 

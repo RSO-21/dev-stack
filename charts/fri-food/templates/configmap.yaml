@@ -7,12 +7,12 @@ data:
   {{ $k }}: {{ $v | quote }}
 {{- end }}
 ---
-{{- range $name, $cfg := .Values.config }}
-{{- if ne $name "common" }}
+{{- range $name, $svc := .Values.services }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "fri-food.fullname" $ }}-{{ $name }}
+{{- $cfg := (index $.Values.config $name) }}
 {{- if $cfg }}
 data:
 {{- range $k, $v := $cfg }}
@@ -22,5 +22,4 @@ data:
 data: {}
 {{- end }}
 ---
-{{- end }}
 {{- end }}

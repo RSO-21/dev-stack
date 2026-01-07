@@ -108,7 +108,7 @@ services:
       - name: amqp
         containerPort: 5672
         servicePort: 5672
-      - name: http
+      - name: mgmt
         containerPort: 15672
         servicePort: 15672
     healthPath: /

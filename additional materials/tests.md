@@ -238,6 +238,62 @@ mutation MarkNotificationAsRead {
   }
 }
 
+## User service
+### Get user by id
+query {
+  userById(userId: "24cfe8a8-44fe-47b8-a0e4-1155eadac9f1") {
+    username
+    name
+    surname
+  }
+}
+
+### Get all users
+query {
+  allUsers {
+    username
+    name
+    surname
+  }
+}
+
+### Update user
+mutation UpdateExistingUser($id: String!, $data: UserUpdateInput!) {
+  updateUser(userId: $id, input: $data) {
+    username
+    name
+    surname
+  }
+}
+
+{
+  "id": "24cfe8a8-44fe-47b8-a0e4-1155eadac9f1",
+  "data": {
+    "name": "tin",
+    "surname": "tin"
+  }
+}
+
+### Get order history for user
+query GetUserOrderHistory($userId: String!) {
+  userOrderHistory(userId: $userId) {
+    id
+    userId
+    orderStatus
+    paymentStatus
+    createdAt
+    items {
+      id
+      offerId
+      quantity
+    }
+  }
+}
+
+{
+  "userId": "ddf2a389-71b1-4c32-88a0-24dbf89740e5"
+}
+
 # 3 Handling multi-tenancy
 If nothing is provided, scheme will default to **public**.
 

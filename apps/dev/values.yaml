@@ -20,6 +20,8 @@ services:
     image: rsofrifoodacr.azurecr.io/order-service:dev
   offer-service:
     image: rsofrifoodacr.azurecr.io/offer-service:dev
+  partner-service:
+    image: rsofrifoodacr.azurecr.io/partner-service:dev
   auth-service:
     image: rsofrifoodacr.azurecr.io/auth-service:dev
   payment-service:
@@ -38,3 +40,23 @@ services:
 secrets:
   postgres:
     existingSecret: fri-food-postgres
+
+# Dev environment DB separation: use *_dev databases on the same Azure Postgres server.
+# Keep credentials the same; only the database name changes.
+config:
+  user-service:
+    PGDATABASE: user_service_dev
+  offer-service:
+    PGDATABASE: offer_service_dev
+  partner-service:
+    PGDATABASE: partner_service_dev
+  order-service:
+    PGDATABASE: order_service_dev
+  payment-service:
+    PGDATABASE: payment_service_dev
+  payment-grpc:
+    PGDATABASE: payment_service_dev
+  notification-service:
+    PGDATABASE: notification_service_dev
+  notification-consumer:
+    PGDATABASE: notification_service_dev

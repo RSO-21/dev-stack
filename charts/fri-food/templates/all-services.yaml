@@ -35,10 +35,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "fri-food.fullname" $ }}-common
-            - configMapRef:
-                name: {{ include "fri-food.fullname" $ }}-{{ $name }}
             - secretRef:
                 name: {{ default (printf "%s-postgres" (include "fri-food.fullname" $)) $.Values.secrets.postgres.existingSecret }}
+            - configMapRef:
+              name: {{ include "fri-food.fullname" $ }}-{{ $name }}
           # Basic health checks (optional but recommended)
           {{- $httpPort := "" }}
           {{- range $p := $svc.ports }}

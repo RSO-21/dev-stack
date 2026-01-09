@@ -231,7 +231,23 @@ services:
         condition: service_healthy
     networks:
       - fri-net
-
+  
+  review-service:
+    build:
+      context: ../review-service
+      dockerfile: Dockerfile
+    env_file:
+      - ../review-service/.env
+    environment:
+      - ORDERS_GRPC_HOST=order-service
+      - ORDERS_GRPC_PORT=50051
+    depends_on:
+      order-service:
+        condition: service_started
+    ports:
+      - "8007:8000"
+    networks:
+      - fri-net
 
   frontend:
     build:

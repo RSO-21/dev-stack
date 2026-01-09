@@ -2,6 +2,7 @@ global:
   imagePullPolicy: Always
   imagePullSecrets: []
 
+
 services:
   api-gateway:
     image: postuvantina/api-gateway:latest
@@ -26,6 +27,7 @@ services:
         containerPort: 8000
         servicePort: 8000
     healthPath: /health
+
   offer-service:
     image: postuvantina/offer-service:latest
     ports:
@@ -56,7 +58,6 @@ services:
         servicePort: 50051
     healthPath: /health
 
-  # REST payment API (if you use it)
   payment-service:
     image: postuvantina/payment-service:latest
     ports:
@@ -65,7 +66,6 @@ services:
         servicePort: 8000
     healthPath: /health
 
-  # gRPC payment server (same image, different command)
   payment-grpc:
     image: postuvantina/payment-service:latest
     command: ["python", "-m", "app.grpc_server"]
@@ -75,7 +75,6 @@ services:
         servicePort: 50051
     healthPath: /health
   
-  # REST Notification API (frontend polls this)
   notification-service:
     image: postuvantina/notification-service:latest
     ports:
@@ -84,12 +83,19 @@ services:
         servicePort: 8000
     healthPath: /health
 
-  # RabbitMQ consumer (same image, different command)
   notification-consumer:
     image: postuvantina/notification-service:latest
     command: ["python", "-m", "app.rabbitmq_consumer"]
     ports:
       - name: dummy
+        containerPort: 8000
+        servicePort: 8000
+    healthPath: /health
+  
+  review-service:
+    image: postuvantina/review-service:latest
+    ports:
+      - name: http
         containerPort: 8000
         servicePort: 8000
     healthPath: /health
@@ -113,28 +119,30 @@ services:
         servicePort: 15672
     healthPath: /
 
+
 ingress:
   enabled: true
   className: nginx
   host: fri-food.local
   paths:
-    # gateway stays normal (no rewrite needed)
     - path: /?(.*)
       serviceName: api-gateway
       servicePort: 9000
 
-    # rewrite /users/... -> /...
     - path: /users(/|$)(.*)
       serviceName: user-service
       servicePort: 8000
 
-    # rewrite /orders/... -> /...
     - path: /orders(/|$)(.*)
       serviceName: order-service
       servicePort: 8000
     
     - path: /notifications(/|$)(.*)
       serviceName: notification-service
+      servicePort: 8000
+    
+    - path: /reviews(/|$)(.*)
+      serviceName: review-service
       servicePort: 8000
 
 
@@ -149,6 +157,8 @@ ingressHosts:
     partners: partners.fri-food.local
     frontend: fri-food.local
     notifications: notifications.fri-food.local
+    reviews: reviews.fri-food.local
+
 
 config:
   common:
@@ -217,6 +227,13 @@ config:
     PGHOST: "rso-server.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "notification_service"
+  
+  review-service:
+    ORDERS_GRPC_HOST: "order-service"
+    ORDERS_GRPC_PORT: "50051"
+    PGHOST: "rso-server.postgres.database.azure.com"
+    PGUSER: "rsoAdmin123"
+    PGDATABASE: "review_service"
 
 
 secrets:

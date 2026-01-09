@@ -177,33 +177,33 @@ config:
   user-service:
     ORDERS_GRPC_HOST: "order-service"
     ORDERS_GRPC_PORT: "50051"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "user_service"
 
   offer-service:
     PARTNER_GRPC_HOST: "partner-service"
     PARTNER_GRPC_PORT: "50051"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "offer_service"
 
   partner-service:
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "partner_service"
 
   order-service:
     PAYMENT_GRPC_HOST: "payment-grpc"
     PAYMENT_GRPC_PORT: "50051"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "order_service"
 
   payment-service:
     PAYMENT_GRPC_HOST: "payment-grpc"
     PAYMENT_GRPC_PORT: "50051"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "payment_service"
 
@@ -211,27 +211,27 @@ config:
     PYTHONPATH: "/app"
     PAYMENT_GRPC_HOST: "payment-grpc"
     PAYMENT_GRPC_PORT: "50051"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "payment_service"
   
   notification-service:
     RABBITMQ_HOST: "rabbitmq"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "notification_service"
 
   notification-consumer:
     RABBITMQ_HOST: "rabbitmq"
     PAYMENT_CONFIRMED_QUEUE: "payment_confirmed"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "notification_service"
   
   review-service:
     ORDERS_GRPC_HOST: "order-service"
     ORDERS_GRPC_PORT: "50051"
-    PGHOST: "rso-server.postgres.database.azure.com"
+    PGHOST: "rso-postgresql.postgres.database.azure.com"
     PGUSER: "rsoAdmin123"
     PGDATABASE: "review_service"
 

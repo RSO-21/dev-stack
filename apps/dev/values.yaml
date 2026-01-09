@@ -12,30 +12,33 @@ ingressHosts:
     partners: partners-dev.68.210.120.104.nip.io
     frontend: fri-food-dev.68.210.120.104.nip.io
     notifications: notifications-dev.68.210.120.104.nip.io
+    review-service: review-dev.68.210.120.104.nip.io
 
 services:
   user-service:
-    image: rsofrifoodacr.azurecr.io/user-service:dev
+    image: frifoodacr.azurecr.io/user-service:dev
   order-service:
-    image: rsofrifoodacr.azurecr.io/order-service:dev
+    image: frifoodacr.azurecr.io/order-service:dev
   offer-service:
-    image: rsofrifoodacr.azurecr.io/offer-service:dev
+    image: frifoodacr.azurecr.io/offer-service:dev
   partner-service:
-    image: rsofrifoodacr.azurecr.io/partner-service:dev
+    image: frifoodacr.azurecr.io/partner-service:dev
   auth-service:
-    image: rsofrifoodacr.azurecr.io/auth-service:dev
+    image: frifoodacr.azurecr.io/auth-service:dev
   payment-service:
-    image: rsofrifoodacr.azurecr.io/payment-service:dev
+    image: frifoodacr.azurecr.io/payment-service:dev
   api-gateway:
-    image: rsofrifoodacr.azurecr.io/api-gateway:dev
+    image: frifoodacr.azurecr.io/api-gateway:dev
   payment-grpc:
-    image: rsofrifoodacr.azurecr.io/payment-service:dev
+    image: frifoodacr.azurecr.io/payment-service:dev
   notification-service:
-    image: rsofrifoodacr.azurecr.io/notification-service:dev
+    image: frifoodacr.azurecr.io/notification-service:dev
   notification-consumer:
-    image: rsofrifoodacr.azurecr.io/notification-service:dev
+    image: frifoodacr.azurecr.io/notification-service:dev
+  review-service:
+    image: frifoodacr.azurecr.io/review-service:dev
   frifood-frontend:
-    image: rsofrifoodacr.azurecr.io/frifood-frontend:dev
+    image: frifoodacr.azurecr.io/frifood-frontend:dev
 
 secrets:
   postgres:
@@ -60,3 +63,5 @@ config:
     PGDATABASE: notification_service_dev
   notification-consumer:
     PGDATABASE: notification_service_dev
+  review-service:
+    PGDATABASE: review_service_dev

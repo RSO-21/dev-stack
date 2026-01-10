@@ -4,31 +4,22 @@ kind: Ingress
 metadata:
   name: fri-food-ms-hosts
   annotations:
-    {{- if and .Values.ingressHosts.tls.enabled .Values.ingressHosts.tls.issuer }}
+    {{- if and .Values.ingressHosts.tls .Values.ingressHosts.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ .Values.ingressHosts.tls.issuer | quote }}
-    {{- end }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-  {{- if .Values.ingressHosts.tls.enabled }}
+  {{- if and .Values.ingressHosts.tls .Values.ingressHosts.tls.enabled }}
   tls:
     - secretName: fri-food-ms-hosts-tls
       hosts:
-        {{- with .Values.ingressHosts.hosts }}
-        {{- if .users }}          - {{ .users | quote }}{{- end }}
-        {{- if .auth }}           - {{ .auth | quote }}{{- end }}
-        {{- if .orders }}         - {{ .orders | quote }}{{- end }}
-        {{- if .payments }}       - {{ .payments | quote }}{{- end }}
-        {{- if .offers }}         - {{ .offers | quote }}{{- end }}
-        {{- if .partners }}       - {{ .partners | quote }}{{- end }}
-        {{- if .notifications }}  - {{ .notifications | quote }}{{- end }}
-        {{- if .frontend }}       - {{ .frontend | quote }}{{- end }}
+        {{- range $k, $h := .Values.ingressHosts.hosts }}
+        - {{ $h | quote }}
         {{- end }}
   {{- end }}
   rules:
     {{- with .Values.ingressHosts.hosts }}
-
     {{- if .users }}
     - host: {{ .users | quote }}
       http:
@@ -132,6 +123,5 @@ spec:
                 port:
                   number: 80
     {{- end }}
-
     {{- end }}
 {{- end }}

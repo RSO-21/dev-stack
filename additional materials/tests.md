@@ -339,6 +339,32 @@ query GetMyProfile {
   }
 }
 
+## Review service
+### Get all reviews for a partner
+query {
+  listPartnerReviews(partnerId: "daf2c6a2-afd2-4746-a5ff-855530a89ff4") {
+    id
+  }
+}
+
+### Create a review
+mutation CreateNewReview($input: RatingInput!) {
+  createReview(input: $input) {
+    rating
+    comment
+  }
+}
+
+{ 
+  "input": {
+    "userId": "a198a9e4-65c0-48b7-8a2c-a8c8c59cba81",
+    "orderId": 1,
+    "rating": 4,
+    "comment": "would recommend"
+
+  }
+}
+
 # 3 Handling multi-tenancy
 If nothing is provided, scheme will default to **public**.
 

@@ -58,6 +58,7 @@ services:
       - NOTIFICATION_SERVICE_URL=http://notification-service:8000
       - USER_SERVICE_URL=http://user-service:8000
       - AUTH_SERVICE_URL=http://auth-service:8000
+      - REVIEW_SERVICE_URL=http://review-service:8000
     depends_on:
       order-service:
         condition: service_started

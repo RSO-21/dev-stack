@@ -123,7 +123,10 @@ services:
 ingress:
   enabled: true
   className: nginx
-  host: fri-food.local
+  host: api.fri-food-dev.4.165.160.2.nip.io
+  tls:
+    enabled: true
+    issuer: letsencrypt-staging 
   paths:
     - path: /?(.*)
       serviceName: api-gateway

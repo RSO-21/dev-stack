@@ -6,16 +6,6 @@ ingress:
 
 ingressHosts:
   enabled: true
-  hosts:
-    auth: auth-dev.4.165.160.2.nip.io
-    users: users-dev.4.165.160.2.nip.io
-    orders: orders-dev.4.165.160.2.nip.io
-    payments: payments-dev.4.165.160.2.nip.io
-    offers: offers-dev.4.165.160.2.nip.io
-    partners: partners-dev.4.165.160.2.nip.io
-    frontend: fri-food-dev.4.165.160.2.nip.io
-    notifications: notifications-dev.4.165.160.2.nip.io
-    review-service: review-dev.4.165.160.2.nip.io
   tls:
     enabled: true
     issuer: letsencrypt-staging

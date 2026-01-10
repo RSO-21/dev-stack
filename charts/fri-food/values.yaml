@@ -151,16 +151,6 @@ ingress:
 
 ingressHosts:
   enabled: true
-  hosts:
-    auth: auth.fri-food.local
-    users: users.fri-food.local
-    orders: orders.fri-food.local
-    payments: payments.fri-food.local
-    offers: offers.fri-food.local
-    partners: partners.fri-food.local
-    frontend: fri-food.local
-    notifications: notifications.fri-food.local
-    reviews: reviews.fri-food.local
 
 
 config:

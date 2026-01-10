@@ -3,10 +3,32 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: fri-food-ms-hosts
+  annotations:
+    {{- if and .Values.ingressHosts.tls.enabled .Values.ingressHosts.tls.issuer }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingressHosts.tls.issuer | quote }}
+    {{- end }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingressHosts.tls.enabled }}
+  tls:
+    - secretName: fri-food-ms-hosts-tls
+      hosts:
+        {{- with .Values.ingressHosts.hosts }}
+        {{- if .users }}          - {{ .users | quote }}{{- end }}
+        {{- if .auth }}           - {{ .auth | quote }}{{- end }}
+        {{- if .orders }}         - {{ .orders | quote }}{{- end }}
+        {{- if .payments }}       - {{ .payments | quote }}{{- end }}
+        {{- if .offers }}         - {{ .offers | quote }}{{- end }}
+        {{- if .partners }}       - {{ .partners | quote }}{{- end }}
+        {{- if .notifications }}  - {{ .notifications | quote }}{{- end }}
+        {{- if .frontend }}       - {{ .frontend | quote }}{{- end }}
+        {{- end }}
+  {{- end }}
   rules:
     {{- with .Values.ingressHosts.hosts }}
+
     {{- if .users }}
     - host: {{ .users | quote }}
       http:
@@ -110,5 +132,6 @@ spec:
                 port:
                   number: 80
     {{- end }}
+
     {{- end }}
 {{- end }}

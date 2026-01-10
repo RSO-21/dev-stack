@@ -126,7 +126,7 @@ ingress:
   host: api.fri-food-dev.4.165.160.2.nip.io
   tls:
     enabled: true
-    issuer: letsencrypt-staging 
+    issuer: letsencrypt-prod
   paths:
     - path: /?(.*)
       serviceName: api-gateway

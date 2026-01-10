@@ -39,6 +39,7 @@ services:
     image: frifoodacr.azurecr.io/review-service:dev
   frifood-frontend:
     image: frifoodacr.azurecr.io/frifood-frontend:dev
+    extraSecretRef: frifood-frontend-secrets
 
 secrets:
   postgres:

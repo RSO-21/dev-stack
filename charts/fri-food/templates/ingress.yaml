@@ -6,26 +6,24 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-
-    {{- if and .Values.ingress.tls.enabled .Values.ingress.tls.issuer }}
+    {{- if and .Values.ingress.tls .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.issuer | quote }}
-    {{- end }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-  {{- if .Values.ingress.tls.enabled }}
+  {{- if and .Values.ingress.tls .Values.ingress.tls.enabled }}
   tls:
     - secretName: fri-food-ingress-tls
       hosts:
         - {{ .Values.ingress.host | quote }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host | quote }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           {{- range .Values.ingress.paths }}
-          - path: {{ .path | quote }}
+          - path: {{ .path }}
             pathType: ImplementationSpecific
             backend:
               service:

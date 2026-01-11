@@ -11,6 +11,11 @@ kube-prometheus-stack:
     adminPassword: admin
     service:
       type: ClusterIP
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        labelValue: "1"
 
   prometheus:
     prometheusSpec:

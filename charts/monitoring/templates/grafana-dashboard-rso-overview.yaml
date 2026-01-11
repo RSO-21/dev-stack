@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rso-overview-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  rso-overview.json: |-
+{{ .Files.Get "dashboards/rso-overview.json" | nindent 4 }}

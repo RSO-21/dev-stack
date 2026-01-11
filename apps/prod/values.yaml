@@ -15,8 +15,31 @@ ingressHosts:
 
 
 services:
+  user-service:
+    image: frifoodacr.azurecr.io/user-service:c7b5e0b
+  order-service:
+    image: frifoodacr.azurecr.io/order-service:ec86ee1
+  offer-service:
+    image: frifoodacr.azurecr.io/offer-service:0e6c36d
   partner-service:
-    image: frifoodacr.azurecr.io/partner-service:2896842
+    image: frifoodacr.azurecr.io/partner-service:e9ba50e
+  auth-service:
+    image: frifoodacr.azurecr.io/auth-service:e984461
+  payment-service:
+    image: frifoodacr.azurecr.io/payment-service:17329d9
+  api-gateway:
+    image: frifoodacr.azurecr.io/api-gateway:0b5e94d
+  payment-grpc:
+    image: frifoodacr.azurecr.io/payment-service:17329d9
+  notification-service:
+    image: frifoodacr.azurecr.io/notification-service:46230b9
+  notification-consumer:
+    image: frifoodacr.azurecr.io/notification-service:46230b9
+  review-service:
+    image: frifoodacr.azurecr.io/review-service:4913f16
+  frifood-frontend:
+    image: frifoodacr.azurecr.io/frifood-frontend:029127e
+    extraSecretRef: frifood-frontend-secrets
 
 secrets:
   postgres:

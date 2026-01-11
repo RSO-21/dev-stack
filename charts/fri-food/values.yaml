@@ -127,26 +127,6 @@ ingress:
   tls:
     enabled: true
     issuer: letsencrypt-staging
-  paths:
-    - path: /?(.*)
-      serviceName: api-gateway
-      servicePort: 9000
-
-    - path: /users(/|$)(.*)
-      serviceName: user-service
-      servicePort: 8000
-
-    - path: /orders(/|$)(.*)
-      serviceName: order-service
-      servicePort: 8000
-    
-    - path: /notifications(/|$)(.*)
-      serviceName: notification-service
-      servicePort: 8000
-    
-    - path: /reviews(/|$)(.*)
-      serviceName: review-service
-      servicePort: 8000
 
 
 ingressHosts:

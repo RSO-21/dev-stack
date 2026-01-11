@@ -2,7 +2,7 @@ ingress:
   host: api.frifood.ass.si
   tls:
     enabled: true
-    issuer: letsencrypt-staging
+    issuer: letsencrypt-prod
 
 ingressHosts:
   enabled: true
@@ -10,7 +10,7 @@ ingressHosts:
     frontend: frifood.ass.si
   tls:
     enabled: true
-    issuer: letsencrypt-staging
+    issuer: letsencrypt-prod
 
 
 

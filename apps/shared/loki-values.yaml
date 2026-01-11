@@ -1,0 +1,16 @@
+# Shared Loki/Promtail config.
+#
+# Notes:
+# - This is a minimal setup (good for dev/demo). For production, you'll want
+#   persistence + object storage (S3/Azure Blob) and proper retention.
+
+loki:
+  fullnameOverride: loki
+  # Keep it simple by default; if you later add persistence/object storage,
+  # we can extend these values.
+
+promtail:
+  fullnameOverride: promtail
+  config:
+    clients:
+      - url: http://loki:3100/loki/api/v1/push

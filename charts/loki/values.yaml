@@ -1,0 +1,5 @@
+# Default values for the Loki wrapper chart.
+# Environment-specific overrides live in apps/shared/loki-values.yaml
+
+loki: {}
+promtail: {}

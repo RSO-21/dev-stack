@@ -55,5 +55,21 @@ The ArgoCD monitoring application is configured with `helm.skipCrds: true`, so A
 
 ### Next steps (later)
 - Per-microservice monitoring: expose `/metrics` (Prometheus format) in each service and add `ServiceMonitor` resources.
-- Log aggregation: add Loki + Promtail (or Grafana Agent) and wire Grafana datasources.
+- Log aggregation: Loki + Promtail are deployed via ArgoCD (see below).
+
+## Kubernetes logs (Loki)
+
+This repo includes an ArgoCD application that deploys Loki + Promtail into the same `monitoring` namespace:
+
+- ArgoCD app: `apps/shared/loki-application.yaml`
+- Values: `apps/shared/loki-values.yaml`
+- Wrapper chart: `charts/loki`
+
+Grafana is configured (via `apps/shared/monitoring-values.yaml`) to add a `Loki` datasource at `http://loki:3100`.
+
+### How to enable
+1. Apply the ArgoCD Application manifest:
+	- `kubectl apply -f dev-stack/apps/shared/loki-application.yaml`
+2. Wait for sync to complete in ArgoCD.
+3. In Grafana, open Explore and select the `Loki` datasource.
 

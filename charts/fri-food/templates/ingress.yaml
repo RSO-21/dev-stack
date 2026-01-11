@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: fri-food-ingress
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
     {{- if and .Values.ingress.tls .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.issuer | quote }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -18,16 +17,14 @@ spec:
         - {{ .Values.ingress.host | quote }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host }}
+    - host: {{ .Values.ingress.host | quote }}
       http:
         paths:
-          {{- range .Values.ingress.paths }}
-          - path: {{ .path }}
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: {{ .serviceName }}
+                name: api-gateway
                 port:
-                  number: {{ .servicePort }}
-          {{- end }}
+                  number: 9000
 {{- end }}

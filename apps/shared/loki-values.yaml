@@ -1,13 +1,47 @@
-# Shared Loki/Promtail config.
-#
-# Notes:
-# - This is a minimal setup (good for dev/demo). For production, you'll want
-#   persistence + object storage (S3/Azure Blob) and proper retention.
+# Minimal Loki + Promtail for dev/demo (no object storage).
+# Loki runs as single-binary and stores data on the local filesystem (ephemeral).
 
 loki:
   fullnameOverride: loki
-  # Keep it simple by default; if you later add persistence/object storage,
-  # we can extend these values.
+
+  # Force single-binary mode instead of distributed/scalable mode
+  deploymentMode: SingleBinary
+
+  singleBinary:
+    replicas: 1
+
+  # Use filesystem storage (no S3/Azure Blob)
+  loki:
+    auth_enabled: false
+
+    commonConfig:
+      replication_factor: 1
+
+    storage:
+      type: filesystem
+
+    schemaConfig:
+      configs:
+        - from: "2024-01-01"
+          store: tsdb
+          object_store: filesystem
+          schema: v13
+          index:
+            prefix: index_
+            period: 24h
+
+    # Put files on disk inside the container (ephemeral unless you add persistence)
+    storage_config:
+      filesystem:
+        directory: /var/loki/chunks
+
+  # Disable the distributed components (they are for scalable/object storage setups)
+  read:
+    replicas: 0
+  write:
+    replicas: 0
+  backend:
+    replicas: 0
 
 promtail:
   fullnameOverride: promtail

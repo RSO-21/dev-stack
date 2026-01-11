@@ -5,7 +5,7 @@ metadata:
   namespace: fri-food-dev
 spec:
   hard:
-    pods: "20"
+    pods: "30"
     requests.cpu: "1"
     limits.cpu: "2"
     requests.memory: 2Gi

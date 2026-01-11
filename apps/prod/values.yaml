@@ -1,5 +1,5 @@
 ingress:
-  host: api.fri-food.4.165.160.2.nip.io
+  host: api.frifood.ass.si
   tls:
     enabled: true
     issuer: letsencrypt-staging
@@ -7,7 +7,7 @@ ingress:
 ingressHosts:
   enabled: true
   hosts:
-    frontend: fri-food.4.165.160.2.nip.io
+    frontend: frifood.ass.si
   tls:
     enabled: true
     issuer: letsencrypt-staging

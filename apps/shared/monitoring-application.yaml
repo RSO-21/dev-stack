@@ -10,6 +10,7 @@ spec:
     targetRevision: main
     path: charts/monitoring
     helm:
+      skipCrds: true
       valueFiles:
         - ../../apps/shared/monitoring-values.yaml
   destination:

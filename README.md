@@ -36,6 +36,15 @@ This repo includes an ArgoCD application that deploys a Prometheus Operator stac
 	 - `kubectl apply -f dev-stack/apps/shared/monitoring-application.yaml`
 2. Wait for sync to complete in ArgoCD.
 
+If the ArgoCD sync fails with errors like `CustomResourceDefinition ... metadata.annotations: Too long`, install the Prometheus Operator CRDs once using server-side apply, then re-sync:
+
+- `kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml`
+- `kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml`
+- `kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml`
+- `kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml`
+
+The ArgoCD monitoring application is configured with `helm.skipCrds: true`, so ArgoCD will not try to re-apply those CRDs afterwards.
+
 ### How to access
 - Grafana (port-forward):
 	- `kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80`

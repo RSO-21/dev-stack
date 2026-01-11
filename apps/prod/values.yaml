@@ -2,7 +2,7 @@ ingress:
   host: api.fri-food.4.165.160.2.nip.io
   tls:
     enabled: true
-    issuer: letsencrypt-prod
+    issuer: letsencrypt-staging
 
 ingressHosts:
   enabled: true
@@ -10,7 +10,7 @@ ingressHosts:
     frontend: fri-food.4.165.160.2.nip.io
   tls:
     enabled: true
-    issuer: letsencrypt-prod
+    issuer: letsencrypt-staging
 
 
 

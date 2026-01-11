@@ -1,0 +1,6 @@
+# Default values for the monitoring wrapper chart.
+#
+# Environment-specific overrides should live in apps/shared/monitoring-values.yaml
+# (or split into apps/dev + apps/prod later if you want different retention/ingress).
+
+kube-prometheus-stack: {}

@@ -1,0 +1,23 @@
+# Shared monitoring config for the Kubernetes cluster.
+#
+# This deploys Prometheus + Grafana (and the usual Kubernetes exporters) via
+# kube-prometheus-stack. It gives you cluster/namespace/pod/node visibility
+# immediately; later we can add ServiceMonitors for each microservice.
+
+kube-prometheus-stack:
+  grafana:
+    enabled: true
+    defaultDashboardsEnabled: true
+    adminPassword: admin
+    service:
+      type: ClusterIP
+
+  prometheus:
+    prometheusSpec:
+      # Allows ServiceMonitors/PodMonitors that don't carry the Helm release label.
+      # This makes it easier to add monitoring objects later.
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+
+  alertmanager:
+    enabled: true

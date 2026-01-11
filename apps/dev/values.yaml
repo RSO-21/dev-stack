@@ -15,6 +15,7 @@ ingressHosts:
 services:
   user-service:
     image: frifoodacr.azurecr.io/user-service:dev
+    extraSecretRef: user-service-secrets
   order-service:
     image: frifoodacr.azurecr.io/order-service:dev
   offer-service:

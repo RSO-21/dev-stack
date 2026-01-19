@@ -1,5 +1,12 @@
 command:
   - "/opt/keycloak/bin/kc.sh"
+
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    value: "admin"
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    value: "admin"
+
 args:
   - "start"
   - "--http-enabled=true"
@@ -8,40 +15,32 @@ args:
   - "--proxy-headers=xforwarded"
   - "--import-realm"
 
-extraEnv: |
-  - name: KC_HTTP_RELATIVE_PATH
-    value: "/auth"
-
-# IMPORTANT: probes must be STRINGS (|), not YAML maps
 startupProbe: |
   httpGet:
     path: /auth/health
     port: http-internal
-    scheme: HTTP
   initialDelaySeconds: 90
-  periodSeconds: 5
-  timeoutSeconds: 1
+  periodSeconds: 10
+  timeoutSeconds: 5
   failureThreshold: 60
 
 readinessProbe: |
   httpGet:
     path: /auth/health/ready
     port: http-internal
-    scheme: HTTP
-  initialDelaySeconds: 10
-  periodSeconds: 5
-  timeoutSeconds: 1
-  failureThreshold: 6
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 12
 
 livenessProbe: |
   httpGet:
     path: /auth/health/live
     port: http-internal
-    scheme: HTTP
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  timeoutSeconds: 1
-  failureThreshold: 3
+  initialDelaySeconds: 120
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
 
 resources:
   requests:

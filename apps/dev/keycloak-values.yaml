@@ -1,6 +1,12 @@
 command:
   - "/opt/keycloak/bin/kc.sh"
 
+extraEnv:
+  - name: KEYCLOAK_ADMIN
+    value: "admin"
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    value: "admin"
+
 args:
   - "start"
   - "--http-enabled=true"

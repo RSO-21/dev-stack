@@ -1,0 +1,44 @@
+command:
+  - "/opt/keycloak/bin/kc.sh"
+args:
+  - "start"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--proxy-headers=xforwarded"
+  - "--import-realm"
+
+extraEnv: |
+  - name: KC_HTTP_RELATIVE_PATH
+    value: "/auth"
+
+# IMPORTANT: probes must be STRINGS (|), not YAML maps
+startupProbe: |
+  httpGet:
+    path: /auth/health
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 20
+  periodSeconds: 5
+  timeoutSeconds: 1
+  failureThreshold: 60
+
+readinessProbe: |
+  httpGet:
+    path: /auth/health/ready
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 1
+  failureThreshold: 6
+
+livenessProbe: |
+  httpGet:
+    path: /auth/health/live
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3

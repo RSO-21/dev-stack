@@ -1,0 +1,40 @@
+command:
+  - "/opt/keycloak/bin/kc.sh"
+args:
+  - "start"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--proxy-headers=xforwarded"
+  - "--import-realm"
+
+startupProbe: |
+  httpGet:
+    path: /auth/health
+    port: http
+    scheme: HTTP
+  # give Keycloak time (DB init/migrations/import)
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 60
+
+readinessProbe: |
+  httpGet:
+    path: /auth/health/ready
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 12
+
+livenessProbe: |
+  httpGet:
+    path: /auth/health/live
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 120
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6

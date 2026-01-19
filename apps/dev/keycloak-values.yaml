@@ -1,5 +1,6 @@
 command:
   - "/opt/keycloak/bin/kc.sh"
+
 args:
   - "start"
   - "--http-enabled=true"
@@ -11,10 +12,8 @@ args:
 startupProbe: |
   httpGet:
     path: /auth/health
-    port: http
-    scheme: HTTP
-  # give Keycloak time (DB init/migrations/import)
-  initialDelaySeconds: 60
+    port: http-internal
+  initialDelaySeconds: 90
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 60
@@ -22,8 +21,7 @@ startupProbe: |
 readinessProbe: |
   httpGet:
     path: /auth/health/ready
-    port: http
-    scheme: HTTP
+    port: http-internal
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
@@ -32,9 +30,16 @@ readinessProbe: |
 livenessProbe: |
   httpGet:
     path: /auth/health/live
-    port: http
-    scheme: HTTP
+    port: http-internal
   initialDelaySeconds: 120
   periodSeconds: 20
   timeoutSeconds: 5
   failureThreshold: 6
+
+resources:
+  requests:
+    memory: 768Mi
+    cpu: 150m
+  limits:
+    memory: 768Mi
+    cpu: 750m

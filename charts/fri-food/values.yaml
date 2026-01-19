@@ -140,6 +140,11 @@ config:
 
   auth-service:
     FLASK_PORT: "8000"
+    KEYCLOAK_REALM: "fri-food"
+    KEYCLOAK_CLIENT_ID: "frifood-auth"
+    KEYCLOAK_CLIENT_SECRET: "CHANGE_ME_SECRET"
+    KEYCLOAK_ADMIN: "admin"
+    KEYCLOAK_ADMIN_PASSWORD: "admin"
 
   api-gateway:
     ORDER_SERVICE_URL: "http://order-service:8000"

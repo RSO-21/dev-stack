@@ -136,7 +136,7 @@ ingressHosts:
 config:
   common:
     RABBITMQ_HOST: "rabbitmq"
-    KEYCLOAK_BASE_URL: "http://keycloak:8080"
+    KEYCLOAK_BASE_URL: "http://keycloak-keycloakx-http"
 
   auth-service:
     FLASK_PORT: "8000"
